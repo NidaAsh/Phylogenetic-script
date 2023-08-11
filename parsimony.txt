@@ -1,0 +1,27 @@
+install.packages("ape")
+install.packages("phangorn")
+
+setwd("C:/Users/tu19levo/Downloads/Phylogenetics/project")
+# read in the character matrix in data
+dat <- ape::read.nexus.data(file ="data/graemetlloyd.nex")
+
+# identify character states
+chars = unique(unlist(unique(dat)))
+
+# & convert to phanghorn object
+dat = phangorn::phyDat(dat, type = "USER", levels = chars)
+# create a neighbour joining starting tree
+dm = phangorn::dist.hamming(dat)
+tree = phangorn::NJ(dm)
+
+# estimate the parsimony tree
+mp = phangorn::optim.parsimony(tree, dat)
+## Final p-score 305 after  1 nni operations
+
+# identify the outgroup
+outgroup = "Prototaria_primigenia"
+
+# root the tree
+mp = ape::root(mp, outgroup = outgroup, resolve.root = TRUE)
+
+plot(mp)

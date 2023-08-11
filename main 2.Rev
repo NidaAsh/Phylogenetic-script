@@ -1,0 +1,47 @@
+setwd("C:/Users/tu19levo/Downloads/Phylogenetics/project")
+morpho <- readDiscreteCharacterData("data/graemetlloyd.nex")
+
+taxa <- morpho.names()
+num_taxa <- taxa.size()
+# num of branches for an unrooted tree
+num_branches <- 2 * num_taxa - 3
+# moves
+moves = VectorMoves()
+monitors=VectorMonitors()
+# Tree model
+br_len_lambda <- 10
+# We assume a uniform prior on topology.
+ phylogeny ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda)) 
+
+# compute the tree length from the phylogeny
+tree_length := phylogeny.treeLength()
+
+
+moves.append( mvNNI(phylogeny, weight=num_branches/2.0) )
+moves.append( mvSPR(phylogeny, weight=num_branches/10.0) )
+moves.append( mvBranchLengthScale(phylogeny, weight=num_branches) )
+
+source("scripts/Mk2.Rev")
+
+
+# We define our model.Partitioned
+# We can use any node of our model as a handle, here we chose to use the tree.
+mymodel = model(phylogeny)
+
+
+monitors.append( mnModel(filename=  "output/MK2_posterior.log",printgen=10, separator = TAB) )
+monitors.append( mnFile(filename=  "output/MK2_posterior.trees",printgen=10, separator = TAB, phylogeny) )
+monitors.append( mnScreen(printgen=1000, tree_length) )
+monitors.append( mnStochasticVariable(filename= "output/Mk2_posterior.var",printgen=10) )
+
+mymcmc = mcmc(mymodel, monitors, moves, nruns=2, combine="mixed")
+mymcmc.burnin(generations=200,tuningInterval=200)
+mymcmc.run(generations= 10000 ,tuningInterval=200)
+
+
+# read the tree file back in
+treetrace = readTreeTrace("output/MK2_posterior.trees", treetype = "non-clock")
+# generate a MAP tree
+map_tree = mapTree(treetrace, "output/MK2_posterior_MAP.tree")
+
+

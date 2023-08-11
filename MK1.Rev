@@ -1,0 +1,11 @@
+
+
+#### specify the Jukes-Cantor substitution model applied uniformly to all sites ###
+# change num_state to the maximum number of states in your data set
+Q := fnJC(6)
+
+# the sequence evolution model. 
+# This is for just the Mk model, no extensions
+seq ~ dnPhyloCTMC(tree=phylogeny, Q=Q, type="Standard")
+# attach the data
+seq.clamp(morpho)

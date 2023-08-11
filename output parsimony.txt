@@ -1,0 +1,9 @@
+"((((((((((((Gomphotaria_pugnax,Dusignathus_seftoni),Aivukus_cedrosensis),
+((Valenictus_chulavistensis,Odobenus_rosmarus),Ontocetus_emmonsi)),(((
+(Kamtschatarctos_sinelnikovae,Nanodobenus_arandai),Pelagiarctos_spp),
+Dusignathus_santacruzensis),Protodobenus_japonicus)),Osodobenus_eodon),
+((Titanotaria_orangensis,Pontolis_kohnoi),((Imagotaria_downsi,cf_Pontolis_magnus),
+Pontolis_barroni))),Archaeodobenus_akamatsui),Neotherium_mirum),Proneotherium_repenningi),
+((Enaliarctos_emlongi,Pteronarctos_goedertae),(((Monachus_monachus,Erignathus_barbatus),
+(Desmatophoca_oregonensis,Allodesmus_gracilis)),Callorhinus_ursinus))),Pseudotaria_muramotoi),Prototaria_primigenia);"
+
